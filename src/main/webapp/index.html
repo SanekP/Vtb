@@ -11,18 +11,20 @@
 	</header>
 	<main>
 	<section>
-		<form id="convertor">
-			<fieldset>
-				<legend>Конвертация:</legend>
+		<fieldset id="convertor">
+			<legend>Конвертация:</legend>
+			<form>
 				<input type="text" name="value" placeholder="Введите число" /> <select
 					name="direction">
-					<option value="toFahrenheit">в Фаренгейт</option>
-					<option value="toCelsius">в Цельсий</option>
-				</select> <input type="button" value="конвертировать" /> <br /> <label
-					for="result">Результат:</label> <input type="text"
-					readonly="readonly" name="result" />
-			</fieldset>
-		</form>
+					<option value="celsiusToFahrenheit">из шкалы Цельсия в
+						шкалу Фаренгейта</option>
+					<option value="fahrenheitToCelsius">из шкалы Фаренгейта в
+						шкалу Цельсия</option>
+				</select> <input type="button" value="конвертировать" />
+			</form>
+			<label for="result">Результат:</label> <input type="text"
+				readonly="readonly" name="result" />
+		</fieldset>
 	</section>
 	</main>
 	<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>

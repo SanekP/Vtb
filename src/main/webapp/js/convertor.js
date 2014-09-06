@@ -11,7 +11,8 @@ $(function() {
 
 	function convert() {
 		button.fadeOut();
-		$.post("convert", convertor.serialize(), success).fail(function() {
+		data = $("form", convertor).serialize();
+		$.post("convert", data, success).fail(function() {
 			alert("Something went wrong :(");
 			button.slideDown();
 		});
