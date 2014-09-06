@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,8 +52,28 @@ public class ConverterServletTest extends EasyMockSupport {
 				result);
 		replayAll();
 		converterServlet.doPost(request, response);
+		JsonObject jsonObject = Json.createObjectBuilder()
+				.add("result", result).build();
 		Assert.assertThat(stringWriter.toString(),
-				CoreMatchers.equalTo("{\"result\":\"" + result + "\"}"));
+				CoreMatchers.equalTo(jsonObject.toString()));
+	}
+
+	@Test
+	public void testCelsiusToFahrenheit() throws ServletException, IOException {
+		String value = "Sample value";
+		String result = "Another value";
+		EasyMock.expect(request.getParameter("value")).andReturn(value)
+				.anyTimes();
+		EasyMock.expect(request.getParameter("direction"))
+				.andReturn("celsiusToFahrenheit").anyTimes();
+		EasyMock.expect(tempConvertSoap.celsiusToFahrenheit(value)).andReturn(
+				result);
+		replayAll();
+		converterServlet.doPost(request, response);
+		JsonObject jsonObject = Json.createObjectBuilder()
+				.add("result", result).build();
+		Assert.assertThat(stringWriter.toString(),
+				CoreMatchers.equalTo(jsonObject.toString()));
 	}
 
 	@After
