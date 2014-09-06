@@ -23,10 +23,6 @@ public class ConverterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (tempConvertSoap == null) {
-			System.out.println(tempConvertSoap);
-			return;
-		}
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
 		try (JsonGenerator jsonGenerator = Json.createGenerator(writer)) {
