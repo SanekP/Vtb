@@ -1,7 +1,9 @@
 package sanekp.vtb.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.json.Json;
@@ -44,10 +46,10 @@ public class ConverterServletTest extends EasyMockSupport {
 	public void testFahrenheitToCelsius() throws ServletException, IOException {
 		String value = "Sample value";
 		String result = "Another value";
-		EasyMock.expect(request.getParameter("value")).andReturn(value)
-				.anyTimes();
-		EasyMock.expect(request.getParameter("direction"))
-				.andReturn("fahrenheitToCelsius").anyTimes();
+		String json = Json.createObjectBuilder().add("value", value)
+				.add("direction", "fahrenheitToCelsius").build().toString();
+		EasyMock.expect(request.getReader()).andReturn(
+				new BufferedReader(new StringReader(json)));
 		EasyMock.expect(tempConvertSoap.fahrenheitToCelsius(value)).andReturn(
 				result);
 		replayAll();
@@ -62,10 +64,10 @@ public class ConverterServletTest extends EasyMockSupport {
 	public void testCelsiusToFahrenheit() throws ServletException, IOException {
 		String value = "Sample value";
 		String result = "Another value";
-		EasyMock.expect(request.getParameter("value")).andReturn(value)
-				.anyTimes();
-		EasyMock.expect(request.getParameter("direction"))
-				.andReturn("celsiusToFahrenheit").anyTimes();
+		String json = Json.createObjectBuilder().add("value", value)
+				.add("direction", "celsiusToFahrenheit").build().toString();
+		EasyMock.expect(request.getReader()).andReturn(
+				new BufferedReader(new StringReader(json)));
 		EasyMock.expect(tempConvertSoap.celsiusToFahrenheit(value)).andReturn(
 				result);
 		replayAll();

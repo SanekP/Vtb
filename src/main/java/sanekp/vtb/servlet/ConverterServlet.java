@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.stream.JsonGenerator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,12 +25,14 @@ public class ConverterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		JsonObject jsonObject = Json.createReader(request.getReader())
+				.readObject();
+		String value = jsonObject.getString("value");
+		String direction = jsonObject.getString("direction");
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
 		try (JsonGenerator jsonGenerator = Json.createGenerator(writer)) {
 			String result;
-			String value = request.getParameter("value");
-			String direction = request.getParameter("direction");
 			try {
 				Method method = TempConvertSoap.class.getMethod(direction,
 						String.class);

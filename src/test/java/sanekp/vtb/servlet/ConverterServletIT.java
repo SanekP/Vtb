@@ -10,6 +10,7 @@ import javax.json.JsonReader;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
 import org.hamcrest.number.IsCloseTo;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,11 +20,12 @@ public class ConverterServletIT {
 			.create("http://localhost:8080/Vtb/convert");
 
 	private double convert(String value, String direction) throws IOException {
-		List<NameValuePair> form = Form.form().add("value", value)
-				.add("direction", direction).build();
+		String json = Json.createObjectBuilder().add("value", value)
+				.add("direction", direction).build().toString();
 		try (JsonReader jsonReader = Json.createReader(Request
-				.Post(SERVLET_URI).bodyForm(form).execute().returnContent()
-				.asStream())) {
+				.Post(SERVLET_URI)
+				.bodyString(json, ContentType.APPLICATION_FORM_URLENCODED)
+				.execute().returnContent().asStream())) {
 			return Double.parseDouble(jsonReader.readObject().getString(
 					"result"));
 		}

@@ -11,8 +11,11 @@ $(function() {
 
 	function convert() {
 		button.fadeOut();
-		data = $("form", convertor).serialize();
-		$.post("convert", data, success).fail(function() {
+		var data = {};
+		$("form").serializeArray().forEach(function(i) {
+			data[i.name] = i.value;
+		});
+		$.post("convert", JSON.stringify(data), success).fail(function() {
 			alert("Something went wrong :(");
 			button.slideDown();
 		});
